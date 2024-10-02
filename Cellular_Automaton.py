@@ -7,7 +7,7 @@ NMin, NMax = 3, 4
 def cell_field():
     data = np.zeros((Y, X))
     random_array = np.random.rand(Y, X)
-    chance = 0.2  # шанс (n*100)%
+    chance = 0.2  # chance (n*100)%
     data[random_array < chance] = 1
     return data
 
@@ -17,7 +17,7 @@ def field_update(data, ny, nx):
     for y in range(-1, 2):
         for x in range(-1, 2):
             if x == 0 and y == 0:
-                continue  # пропустить элемент
+                continue  # skip element
 
             ny_neighbor = ny + y
             nx_neighbor = nx + x
@@ -26,14 +26,14 @@ def field_update(data, ny, nx):
                 if data[ny_neighbor, nx_neighbor] == 1:
                     count_live += 1
                     
-    if  count_live < NMin or count_live > NMax: # клетка умирает, если в области от <A или >B соседей
+    if  count_live < NMin or count_live > NMax: # cell death, if in range <A or >B neighbors
         data[ny, nx] = 0
     else:
         data[ny, nx] = 1
 
 def process_array(data):
     rows, cols = data.shape
-    new_data = np.copy(data) # создание копии
+    new_data = np.copy(data) # create a copy
 
     for ny in range(rows):
         for nx in range(cols):
@@ -47,11 +47,11 @@ def field_draw(data, iterations):
     plt.show(block=False)
     iteration = 0
     while iteration != iterations:
-        data = process_array(data) # функция обновления массива
+        data = process_array(data) # array refresh function
         img.set_array(data[::-1].flatten())
         fig.canvas.draw_idle()
         fig.canvas.flush_events()
-        plt.pause(0.1)  # обновляем график каждые 0.1 секунды
+        plt.pause(0.1)  # update the chart every 0.1 seconds
         iteration += 1
     plt.show()
         
